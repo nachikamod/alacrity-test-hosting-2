@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+
+
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-database.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="style-scripts/admin.css">
+    <script src="js-lib/index.js"></script>
+
+
+  </head>
+  <body onload="readTask()">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+    <script src="https://kit.fontawesome.com/62a31fdea1.js" crossorigin="anonymous"></script>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+      <a class="navbar-brand" style="font-size:1vw" href="#">
+        <img src="resources/logo_console.png" style="width:4vw; margin-right:0.5vw">
+        Admin Console
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="adminConsole.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Campus Ambassadors</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="addAccounts.html">Generate Accounts</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Querries</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Login logs</a>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <i class="fa fa-sign-in" aria-hidden="true" style="color:#898989"></i>
+          <a class="nav-link" onclick="logout()" style="color:#898989" href="#">LOGOUT</a>
+        </form>
+      </div>
+    </nav>
+
+
+    <div class="container" style="margin-top:1vw">
+      <div class="row">
+        <div class="col-md-12" id="firstSection">
+          <div class="border p-4 mb-4" id="form">
+
+            <div class="form-group">
+              <label> Ambassador's Name</label>
+              <input type="text" class="form-control" id="amb_name" placeholder="Name" required>
+            </div>
+
+            <div class="form-group">
+              <label> College Name</label>
+              <input type="text" class="form-control" id="amb_clg" placeholder="College" required>
+            </div>
+
+            <div class="form-group">
+              <label> Contact</label>
+              <input type="text" class="form-control" id="contact" placeholder="Mobile no." required>
+            </div>
+
+            <div class="form-group">
+              <label> Email</label>
+              <input type="text" class="form-control" id="email" placeholder="Email" required>
+            </div>
+
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" class="form-control" id="password" placeholder="Password" required>
+            </div>
+
+            <div class="form-group">
+              <label>Confirm Password</label>
+              <input type="password" class="form-control" id="conf_password" placeholder="Password" required>
+            </div>
+
+            <button type="submit" id="button1" class="btn btn-primary" onclick="createAccount()">CREATE ACCOUNT</button>
+            <button style="display: none" id="button2" class="btn btn-success">update Task</button>
+            <button style="display: none" id="button3" class="btn btn-danger">Cancel</button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12" id="cardSection"></div>
+
+    <script src="js-lib/add-acc.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,12 @@
+
+.center-progress{
+  text-align: center;
+}
+
+.test-progress{
+  text-align: center;
+}
+
+.text-progress p {
+  display: block;
+}

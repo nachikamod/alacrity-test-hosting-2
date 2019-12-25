@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Alacrity Login</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-database.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="style-scripts/alacritystyle.css">
+  <script src="js-lib/index.js"></script>
+
+</head>
+<body onload="ignite()">
+	<div class="logincontainer">
+  <button class="buttons" onclick="document.getElementById('id01').style.display='block';retrieveLogs();" style="width:auto;">Admin Login</button>
+  &nbsp;
+  <button class="buttons"onclick="document.getElementById('id02').style.display='block'" style="width:auto;">Ambassador Login</button>
+  </div>
+
+  <!-- Admin login window-->
+  <div id="id01" class="modal">
+
+    <div class="modal-content animate">
+
+
+      <div class="container">
+        <label for="uname"><b>Admin Username</b></label>
+        <input type="text" placeholder="Enter Username" name="uname" id="admin_email" required>
+
+        <label for="psw"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="psw" id="admin_password" required>
+
+        <button class="buttons" type="submit" onclick="adminLogin()">Login</button>  <!--Check out adminLogin funct index.js-->
+      </div>
+
+      <div class="container" style="background-color:#f1f1f1">
+        <button type="button" onclick="document.getElementById('id01').style.display='none'" class="buttons">Cancel</button>
+        <a style="float:right" id="visit-logs">Last Visited</a>
+      </div>
+
+    </div>
+
+</div>
+
+
+<!-- Ambassador login window-->
+
+<div id="id02" class="modal">
+
+  <div class="modal-content animate">
+
+
+    <div class="container">
+      <label for="uname"><b>Ambassador Username</b></label>
+      <input type="text" placeholder="Enter Username" name="uname" id="amb_email" required>
+
+      <label for="psw"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="psw" id="amb_password" required>
+
+      <button class="buttons" type="submit" onclick="ambassadorLogin()">Login</button>
+    </div>
+
+    <div class="container" style="background-color:#f1f1f1">
+      <button type="button" onclick="document.getElementById('id02').style.display='none'" class="buttons">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+
+<!--credits-->
+
+</body>
+</html>

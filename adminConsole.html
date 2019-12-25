@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="jquery-lib/jquery.easypiechart.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="style-scripts/admin.css">
+
+
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-database.js"></script>
+    <script src="js-lib/index.js"></script>
+  </head>
+  <body onload="ignite();timeStampper();">
+
+    <nav class="navbar navbar-default" style="padding:0.5vw">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <img src="resources/logo_console.png" style="width:4vw; margin-right:0.5vw">
+          <a style="text-decoration:none" href="#">Admin Console</a>
+        </div>
+        <ul class="nav navbar-nav" style="margin-left:2vw">
+          <li><a href="adminConsole.html">Home</a></li>
+          <li><a href="#">Campus Ambassadors</a></li>
+          <li><a href="addAccounts.html">Generate Accounts</a></li>
+          <li><a href="#">Querries</a></li>
+          <li><a href="#">Login Logs</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a onclick="logout()" href="#"><span class="glyphicon glyphicon-log-out"></span> LOGOUT</a></li>
+        </ul>
+      </div>
+    </nav>
+
+      <div class="center-progress">
+        <div class="container-fluid">
+          <div class="box">
+            <div id="something-some" data-percent="50" class="chart" style="text-align:center">78%</div>
+            <p style="margin-top:2vw;font-size:2vw">AVERAGE WEEKLY PROGRESS</p>
+          </div>
+        </div>
+      </div>
+      <div class="center-progress">
+        <div class="container-fluid">
+          <div class="box">
+            <div class="chart2" style="text-align:center">78%</div>
+            <p style="margin-top:2vw;font-size:2vw">AVERAGE OVERALL PROGRESS</p>
+          </div>
+        </div>
+      </div>
+
+  </body>
+</html>
