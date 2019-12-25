@@ -130,7 +130,7 @@ function distributeTasks(){
               </div>
             </div>
             <div style="margin-top:1vw">
-              <button type="button" class="btn btn-primary btn-lg btn-block" onclick="assignWeeklyTask(${taskValue.id},'')">Weekly Task</button>
+              <button type="button" class="btn btn-primary btn-lg btn-block" onclick="console.log(${taskValue.id})">Weekly Task</button>
               <button type="button" class="btn btn-primary btn-lg btn-block" onclick="assignOverallTask(${taskValue.id},'')">Overall Task</button>
             </div>
           </div>
