@@ -89,6 +89,32 @@ function readTask(){
       <div class="card mb-3">
         <div class="card-body">
           <div class="container-fluid">
+            <h5 class="card-title" style="color:#4c4c78">${taskValue.name}</h5>
+            <p class="card-text">Email : ${taskValue.email}</br>College : ${taskValue.college}</br>Contact : ${taskValue.contact}</p>
+          </div>
+        </div>
+      </div>
+    `
+  });
+}
+
+function distributeTasks(){
+
+  var task = firebase.database() .ref("ambassadors_data/");
+
+  task.on("value", function(snapshot){
+    console.log("Count : " + snapshot.numChildren());
+
+    document.getElementById("count").innerHTML = snapshot.numChildren();
+  });
+
+  task.on("child_added",function(data){
+    var taskValue = data.val();
+    console.log(taskValue);
+    document.getElementById("cardSection").innerHTML+=`
+      <div class="card mb-3">
+        <div class="card-body">
+          <div class="container-fluid">
             <div class="row">
               <div class="col-sm-4">
                 <h5 class="card-title" style="color:#4c4c78">${taskValue.name}</h5>
@@ -103,9 +129,17 @@ function readTask(){
                 <p>Overall Tasks</p>
               </div>
             </div>
+            <div style="margin-top:1vw">
+              <button type="button" class="btn btn-primary btn-lg btn-block" onclick="assignWeeklyTask(${taskValue.id},'')">Weekly Task</button>
+              <button type="button" class="btn btn-primary btn-lg btn-block" onclick="assignOverallTask(${taskValue.id},'')">Overall Task</button>
+            </div>
           </div>
         </div>
       </div>
     `
   });
+}
+
+function assignWeeklyTask() {
+  
 }
