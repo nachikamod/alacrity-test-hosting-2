@@ -75,14 +75,35 @@ function uploadData(authKey, nm, clg, cont, em) {
 
 function readTask(){
   var task = firebase.database() .ref("ambassadors_data/");
+
+  task.on("value", function(snapshot){
+    console.log("Count : " + snapshot.numChildren());
+
+    document.getElementById("count").innerHTML = snapshot.numChildren();
+  });
+
   task.on("child_added",function(data){
     var taskValue = data.val();
     console.log(taskValue);
     document.getElementById("cardSection").innerHTML+=`
       <div class="card mb-3">
         <div class="card-body">
-           <h5 class="card-title">${taskValue.name}</h5>
-           <p class="card-text">Email : ${taskValue.email}</br>College : ${taskValue.college}</br>Contact : ${taskValue.contact}</p>
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-4">
+                <h5 class="card-title" style="color:#4c4c78">${taskValue.name}</h5>
+                <p class="card-text">Email : ${taskValue.email}</br>College : ${taskValue.college}</br>Contact : ${taskValue.contact}</p>
+              </div>
+              <div style="text-align:center" class="col-sm-4">
+                <a style="font-size:3vw;color:#4c4c78">50%</a>
+                <p>Weekly Tasks</p>
+              </div>
+              <div style="text-align:center" class="col-sm-4">
+                <a style="font-size:3vw;color:#4c4c78">80%</a>
+                <p>Overall Tasks</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     `
