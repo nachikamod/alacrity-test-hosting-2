@@ -19,6 +19,22 @@
     <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-analytics.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-database.js"></script>
+
+    <style type="text/css">
+
+      li:hover {
+         border-left: 1px solid #cdcdcd;
+         border-right: 1px solid #cdcdcd;
+         background-color: #cccccc;
+         border-radius: 0.2em;
+
+      }
+      .navbar{
+        box-shadow: 0 0 8px #888888;
+        background-color: #f2f2f2;
+      }
+
+    </style>
     <script src="js-lib/index.js"></script>
   </head>
   <body onload="ignite();timeStampper();">
@@ -32,9 +48,9 @@
         <ul class="nav navbar-nav" style="margin-left:2vw">
           <li><a href="adminConsole.html">Home</a></li>
           <li><a href="camp_amb.html">Campus Ambassadors</a></li>
+          <li><a href="distribute-tasks.html">Distribute Tasks</a></li>
           <li><a href="addAccounts.html">Generate Accounts</a></li>
           <li><a href="#">Querries</a></li>
-          <li><a href="#">Login Logs</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a onclick="logout()" href="#"><span class="glyphicon glyphicon-log-out"></span> LOGOUT</a></li>
@@ -42,7 +58,7 @@
       </div>
     </nav>
 
-      <div class="center-progress">
+      <div class="center-progress" onclick="testAuth()">
         <div class="container-fluid">
           <div class="box">
             <div id="something-some" data-percent="50" class="chart" style="text-align:center">78%</div>

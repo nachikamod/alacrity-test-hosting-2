@@ -10,3 +10,17 @@
 .text-progress p {
   display: block;
 }
+
+.fileUploaderPopUp{
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  text-align: center;
+  background-color: white;
+  box-shadow: 5px 10px 30px #e3e4e5;
+  display: none;
+  /*margin-top: 30vw;*/
+}

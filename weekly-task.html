@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="js-lib/add-acc.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-storage.js"></script>
+
+
+    <link rel="stylesheet" type="text/css" href="style-scripts/admin.css">
+    <script src="js-lib/index.js"></script>
+  </head>
+  <body>
+    <script src="js-lib/add-acc.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+    <script src="https://kit.fontawesome.com/62a31fdea1.js" crossorigin="anonymous"></script>
+
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+      <a class="navbar-brand" style="font-size:1vw" href="#">
+        <img src="resources/logo_console.png" style="width:4vw; margin-right:0.5vw">
+        Admin Console
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="adminConsole.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="camp_amb.html">Campus Ambassadors</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="addAccounts.html">Generate Accounts</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Querries</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Login logs</a>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <i class="fa fa-sign-in" aria-hidden="true" style="color:#898989"></i>
+          <a class="nav-link" onclick="logout()" style="color:#898989">LOGOUT</a>
+        </form>
+      </div>
+    </nav>
+
+    <div style="margin-top:2vw" class="container-fluid">
+      <div class="row">
+        <div style="text-align:center" class="col-sm-6">
+          <p id="tsk-compl" style="font-size:5vw;color:#4c4c78">45</p>
+          <h3>Tasks Complete</h3>
+        </div>
+        <div style="text-align:center" class="col-sm-6">
+          <p id="tsk-incompl" style="font-size:5vw;color:#4c4c78">30</p>
+          <h3>Tasks Incomplete</h3>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin:2vw">
+      <div class="form-group">
+        <label> Add Task</label>
+        <input type="text" class="form-control" placeholder="Title" id="tasker" required>
+      </div>
+      <div class="form-group">
+        <label> Description</label>
+        <textarea class="form-control" name="name" rows="8" cols="80" placeholder="Description" id="descriptor"></textarea>
+      </div>
+      <button type="button" style="margin-top:1vw" class="btn btn-primary btn-lg btn-block" onclick="uploadTaskData()">Assign</button>
+
+      <div class="container fileUploaderPopUp" id="pop-up">
+
+        <div class="loading-circle">
+          <div class="loader"></div>
+        </div>
+
+        <div class="container">
+          <img style="width:100px;margin-top:2vw" src="resources/cloud_upload.png">
+          <h2 style="margin-top:0.5vw">Upload Files</h2>
+          <div class="container">
+
+            <form style="margin-top:2vw">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="fileButton">
+                <label class="custom-file-label" for="customFile">Choose file</label>
+              </div>
+            </form>
+
+            <div class="row">
+              <div class="col-sm-6">
+                <button type="button" style="margin-top:1vw; margin-bottom:1vw" class="btn btn-primary btn-lg btn-block" onclick="uploadfileData();weeklyTaskReload()">uploadFile</button>
+              </div>
+              <div class="col-sm-6">
+                <button type="button" style="margin-top:1vw; margin-bottom:1vw" class="btn btn-primary btn-lg btn-block" onclick="dismiss()">Cancel</button>
+              </div>
+              <script>
+              var file;
+                $(".custom-file-input").on("change", function() {
+                  var fileName = $(this).val().split("\\").pop();
+
+                  localStorage.setItem("fileName", fileName);
+
+                  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+                });
+                var fileButton = document.getElementById("fileButton");
+                fileButton.addEventListener('change', function(e){
+                    file = e.target.files[0];
+                });
+
+                function uploadfileData(){
+                  var date = new Date();
+                  var hours = date.getHours();
+                  var min = date.getMinutes();
+                  var sec = date.getSeconds();
+                  var storageRef = firebase.storage().ref(hours + "-" + min + "-" + sec + "-" + file.name);
+                  var task = storageRef.put(file);
+                  task.on('state_changed',
+                    function progress(snapshot){
+
+                      var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                      document.getElementById("loader").style.display = "block";
+                      document.getElementById("loading-display").style.display = "block";
+                      console.log(percentage);
+                      //uploader.value = percentage;
+                    },
+                    function error(err) {
+                    },
+                    function complete(){
+                      //alert("Profile photo uploaded successfully");
+                      document.getElementById("loader").style.display = "none";
+                      document.getElementById("loading-bar").style.display = "none";
+                      //var photoUID = localStorage.getItem("uid");
+                      task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                        var database = firebase.database().ref("ambassadors_data/" + localStorage.getItem("val") + "/weekly_tasks/" + localStorage.getItem("data_key") + "/files").push();
+
+                        var file$name = {
+                          fileURL : downloadURL,
+                          fileName : file.name
+                        }
+
+                        database.set(file$name);
+                        //database.child("fileURL").set(downloadURL);
+                        document.getElementById("tasker").value = '';
+                        document.getElementById("descriptor").value = '';
+                      });
+                    }
+                  );
+                }
+                function dismiss(){
+                  document.getElementById("pop-up").style.display = "none";
+                }
+              </script>
+            </div>
+
+            <div class="col-md-12" style="text-align:left" id="cardSection4"></div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

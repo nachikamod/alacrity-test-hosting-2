@@ -13,11 +13,7 @@ firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
 var authKey;
-var name, clg_name, email, password, conf_password, contact;
-
-var d = new Date();
-var t = d.getTime();
-var counter = t;
+var name, clg_name, email, password, conf_password, contact, id_edit;
 
 function createAccount(){
 
@@ -48,7 +44,6 @@ function createAcc(nm, clg, cont, em, pass){
     var errorCode = error.code;
     var errorMessage = error.message;
 
-
     console.log(errorCode + " : " + errorMessage);
 
   }).then(function () {
@@ -57,7 +52,7 @@ function createAcc(nm, clg, cont, em, pass){
         window.alert("Account Created");
 
         uploadData(authKey, nm, clg, cont, em);
-    });
+  });
 
 }
 
@@ -66,27 +61,31 @@ function uploadData(authKey, nm, clg, cont, em) {
     name: nm,
     college: clg,
     email: em,
-    contact: cont
+    contact: cont,
+    key: authKey
   }
   let db = firebase.database().ref("ambassadors_data/" + authKey);
   db.set(data);
+
   readTask();
 }
 
 function readTask(){
   var task = firebase.database() .ref("ambassadors_data/");
 
-  task.on("value", function(snapshot){
-    console.log("Count : " + snapshot.numChildren());
 
-    document.getElementById("count").innerHTML = snapshot.numChildren();
-  });
+    document.getElementById("amb_name").value = '';
+    document.getElementById("amb_clg").value = '';
+    document.getElementById("contact").value = '';
+    document.getElementById("email").value = '';
+    document.getElementById("password").value = '';
+    document.getElementById("conf_password").value = '';
 
   task.on("child_added",function(data){
     var taskValue = data.val();
     console.log(taskValue);
     document.getElementById("cardSection").innerHTML+=`
-      <div class="card mb-3">
+      <div class="card mb-3" style="box-shadow:0 0 8px #888888">
         <div class="card-body">
           <div class="container-fluid">
             <h5 class="card-title" style="color:#4c4c78">${taskValue.name}</h5>
@@ -100,7 +99,7 @@ function readTask(){
 
 function distributeTasks(){
 
-  var task = firebase.database() .ref("ambassadors_data/");
+  var task = firebase.database().ref("ambassadors_data/");
 
   task.on("value", function(snapshot){
     console.log("Count : " + snapshot.numChildren());
@@ -111,8 +110,8 @@ function distributeTasks(){
   task.on("child_added",function(data){
     var taskValue = data.val();
     console.log(taskValue);
-    document.getElementById("cardSection").innerHTML+=`
-      <div class="card mb-3">
+    document.getElementById("cardSection2").innerHTML+=`
+      <div class="card mb-3" style="box-shadow:0 0 8px #888888">
         <div class="card-body">
           <div class="container-fluid">
             <div class="row">
@@ -129,10 +128,6 @@ function distributeTasks(){
                 <p>Overall Tasks</p>
               </div>
             </div>
-            <div style="margin-top:1vw">
-              <button type="button" class="btn btn-primary btn-lg btn-block" onclick="console.log(${taskValue.id})">Weekly Task</button>
-              <button type="button" class="btn btn-primary btn-lg btn-block" onclick="assignOverallTask(${taskValue.id},'')">Overall Task</button>
-            </div>
           </div>
         </div>
       </div>
@@ -140,6 +135,182 @@ function distributeTasks(){
   });
 }
 
-function assignWeeklyTask() {
-  
+function assignWeeklyTask(id,userName) {
+
+  localStorage.setItem("val", id);
+  localStorage.setItem("name",userName);
+  window.location.replace("weekly-task.html")
+}
+
+function loader(){
+  document.getElementById("test").innerHTML = localStorage.getItem("val");
+}
+
+function uploadTaskData(){
+  var taskTitle = document.getElementById("tasker").value;
+  var taskDescriptor = document.getElementById("descriptor").value;
+
+
+
+  if (tsk == "weekly") {
+
+    var dabase = firebase.database().ref("tasks-buffer/weekly-tasks-buffer").push();
+    var combData = {
+      title : taskTitle,
+      description : taskDescriptor,
+      dataKey: dabase.getKey()
+    }
+
+    localStorage.setItem("data_key", dabase.getKey());
+    dabase.set(combData);
+
+  }
+
+  else if (tsk == "overall") {
+    var dabase = firebase.database().ref("tasks-buffer/overall-tasks-buffer").push();
+    var combData = {
+      title : taskTitle,
+      description : taskDescriptor,
+      dataKey: dabase.getKey()
+    }
+
+    localStorage.setItem("data_key", dabase.getKey());
+    dabase.set(combData);
+  }
+
+  else {
+    window.alert("Select task type");
+  }
+
+
+  document.getElementById("pop-up").style.display = "block";
+  document.getElementById("file-section").innerHTML = ``;
+
+}
+
+function weeklyTaskReload(){
+
+  document.getElementById("weekly-section").innerHTML = ``;
+  document.getElementById("overall-section").innerHTML = ``;
+
+  var task = firebase.database().ref("tasks-buffer/weekly-tasks-buffer");
+  task.on("child_added",function(data){
+    var taskValue = data.val();
+    console.log(taskValue);
+    document.getElementById("weekly-section").innerHTML+=`
+      <div class="card mb-3" style="box-shadow:0 0 8px #888888">
+        <div class="card-body">
+          <h5 class="card-title">${taskValue.title}</h5>
+          <p class="card-text">${taskValue.description}</p>
+        </div>
+      </div>
+    `
+  });
+
+  var ovrTask = firebase.database().ref("tasks-buffer/overall-tasks-buffer");
+  ovrTask.on("child_added",function(data){
+    var taskValue = data.val();//here
+    console.log(taskValue);
+    document.getElementById("overall-section").innerHTML+=`
+      <div class="card mb-3" style="box-shadow:0 0 8px #888888" onclick="retrieveFiles('${taskValue.dataKey}','${taskValue.title}')">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-10">
+              <h5 id="${taskValue.dataKey}title" class="card-title">${taskValue.title}</h5>
+              <input style="display:none" type="text" class="form-control" id="${taskValue.dataKey}tasker" value="${taskValue.title}" required>
+              <textarea style="display:none" class="form-control" style="margin-top:1vw" name="name" rows="8" cols="80"  id="${taskValue.dataKey}descriptor"></textarea>
+              <button style="display:none" id="${taskValue.dataKey}submit" type="button" style="margin-top:1vw;box-shadow: 0 0 8px #888888" class="btn btn-primary btn-lg btn-block" onclick="editedOverall('${taskValue.dataKey}')">Assign</button>
+              <p id="${taskValue.dataKey}desc" class="card-text">${taskValue.description}</p>
+            </div>
+            <div class="col-sm-1">
+              <div class="watch"><img src="resources/edit.png" style="width:1.4vw" href="#" onclick="document.getElementById('${taskValue.dataKey}title').style.display = 'none';
+                                                                                                     document.getElementById('${taskValue.dataKey}desc').style.display = 'none';
+                                                                                                     document.getElementById('${taskValue.dataKey}tasker').style.display = 'block';
+                                                                                                     document.getElementById('${taskValue.dataKey}descriptor').style.display = 'block';
+                                                                                                     document.getElementById('${taskValue.dataKey}descriptor').innerHTML = '${taskValue.description}';
+                                                                                                     document.getElementById('${taskValue.dataKey}submit').style.display = 'block'"></div>
+              <style>
+                .watch:hover{
+                  text-align:center;
+                  width:2vw;
+                  height:2vw;
+                  border-radius:1vw;
+                  background-color:#dadada;
+                }
+              </style>
+            </div>
+            <div class="col-sm-1">
+              <div class="watch"><img style="width:1.4vw" src="resources/delete.png" href="#" onclick="deleteOverall()"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `
+  });
+
+}
+
+function retrieveFiles(fileFixer,title){
+  document.getElementById("fileNameHolder").style.padding = "1vw";
+  document.getElementById("fileNameHolder").innerHTML = title + " Files";
+
+  document.getElementById("file-section2").innerHTML = ``;
+//console.log(fileKey);
+  var fileTask = firebase.database().ref("tasks-buffer/overall-tasks-buffer/" + fileFixer  + "/files");
+  fileTask.on("child_added",function(data){
+    var fileVal = data.val();
+    console.log(fileVal);
+    //console.log(${fileVal.fileName});
+    document.getElementById("file-section2").innerHTML+=`
+      <div class="card mb-3">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-10">
+              <h5 class="card-title">${fileVal.fileName}</h5>
+              <p id="${fileVal.fileKey}"></p>
+            </div>
+            <div class="col-sm-1">
+              <div class="watch"><img src="resources/eye.png" href="#" onclick="window.location.replace('${fileVal.fileURL}')"></div>
+              <style>
+                .watch:hover{
+                  text-align:center;
+                  width:2vw;
+                  height:2vw;
+                  border-radius:1vw;
+                  background-color:#dadada;
+                }
+              </style>
+            </div>
+            <div class="col-sm-1">
+              <div class="watch"><img style="width:1.4vw" src="resources/delete.png" href="#" onclick=remover('${fileVal.dataKey}','${fileVal.fileKey}')></div>
+            </div>
+          <div>
+        </div>
+      </div>
+    `
+  });
+}
+
+var tsk;
+
+function tskType(type){
+  tsk = type;
+  localStorage.setItem("taskStore",tsk);
+}
+
+function remover(dataKey,fileKey){
+  firebase.database().ref().child("tasks-buffer").child("overall-tasks-buffer").child(dataKey).child("files").child(fileKey).remove();
+  document.getElementById(fileKey).innerHTML = "File Removed";
+  document.getElementById(fileKey).style.color = "red";
+}
+
+function editedOverall(dataKey){
+
+  var taskTi = {
+    title : document.getElementById(dataKey + "tasker").value,
+    description : document.getElementById(dataKey + "descriptor").value
+  }
+
+  firebase.database().ref().child("tasks-buffer").child("overall-tasks-buffer").child(dataKey).set(taskTi);
+
 }

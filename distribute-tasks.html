@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-storage.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="style-scripts/admin.css">
+
+    <script src="js-lib/index.js"></script>
+
+    <style type="text/css">
+
+      .nav-link:hover {
+         border-left: 1px solid #cdcdcd;
+         border-right: 1px solid #cdcdcd;
+         background-color: #cccccc;
+         border-radius: 0.2em;
+
+      }
+      .navbar{
+        box-shadow: 0 0 8px #888888;
+        background-color: #f2f2f2;
+      }
+
+    </style>
+  </head>
+  <body onload="weeklyTaskReload()">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+    <script src="https://kit.fontawesome.com/62a31fdea1.js" crossorigin="anonymous"></script>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+      <a class="navbar-brand" style="font-size:1vw" href="#">
+        <img src="resources/logo_console.png" style="width:4vw; margin-right:0.5vw">
+        Admin Console
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="adminConsole.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="camp_amb.html">Campus Ambassadors</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="distribute-tasks.html">Distribute Tasks</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="addAccounts.html">Generate Accounts</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Querries</a>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <i class="fa fa-sign-in" aria-hidden="true" style="color:#898989"></i>
+          <a class="nav-link" onclick="logout()" style="color:#898989" href="#">LOGOUT</a>
+        </form>
+      </div>
+    </nav>
+
+    <div style="box-shadow: 0 0 8px #888888;margin:1vw">
+      <div class="card mb-3">
+        <div class="card-body">
+          <h3 style="text-align:center; color:#4c4c78">Distribute Tasks</h3>
+          <div class="form-group">
+            <label style="font-weight:bold"> Task Title</label>
+            <input type="text" class="form-control" id="tasker" placeholder="Title" required>
+          </div>
+          <div class="form-group">
+            <label style="font-weight:bold"> Description</label>
+            <textarea class="form-control" name="name" rows="8" cols="80" placeholder="Description" id="descriptor"></textarea>
+          </div>
+          <div class="form-group">
+            <div class="dropdown">
+              <button type="button" style="box-shadow: 0 0 8px #888888" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id="placeHolder">
+                Task Type
+              </button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="#" onclick="document.getElementById('placeHolder').innerHTML='Weekly Task';tskType(tskr = 'weekly')">Weekly Task</a>
+                <a class="dropdown-item" href="#" onclick="document.getElementById('placeHolder').innerHTML='Overall Task';tskType(tskar = 'overall')">Overall Task</a>
+              </div>
+            </div>
+          </div>
+          <button type="button" style="margin-top:1vw;box-shadow: 0 0 8px #888888" class="btn btn-primary btn-lg btn-block" onclick="uploadTaskData()">Assign</button>
+          <div class="container fileUploaderPopUp" id="pop-up">
+
+            <div class="container">
+              <img style="width:100px;margin-top:2vw" src="resources/cloud_upload.png">
+              <h2 style="margin-top:0.5vw">Upload Files</h2>
+              <div class="container">
+
+                <form style="margin-top:2vw">
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="fileButton">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                  </div>
+                </form>
+
+                <div class="row">
+                  <div class="col-sm-6">
+                    <button type="button" style="margin-top:1vw; margin-bottom:1vw;box-shadow: 0 0 8px #888888" class="btn btn-primary btn-lg btn-block" onclick="uploadfileData();weeklyTaskReload()">uploadFile</button>
+                  </div>
+                  <div class="col-sm-6">
+                    <button type="button" style="margin-top:1vw; margin-bottom:1vw;box-shadow: 0 0 8px #888888" class="btn btn-primary btn-lg btn-block" onclick="dismiss()">Cancel</button>
+                  </div>
+                  <script>
+                  var file;
+
+                  //Setting file name to container
+                    $(".custom-file-input").on("change", function() {
+                      var fileName = $(this).val().split("\\").pop();
+
+                      localStorage.setItem("fileName", fileName);
+
+                      $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+                    });
+
+                    //Getting file object from the system
+                    var fileButton = document.getElementById("fileButton");
+                    fileButton.addEventListener('change', function(e){
+                        file = e.target.files[0];
+                    });
+
+                    //uploadinf file to server
+                    function uploadfileData(){
+                      var date = new Date();
+                      var hours = date.getHours();
+                      var min = date.getMinutes();
+                      var sec = date.getSeconds();
+
+                      //uploadinf file to firebase storage
+                      var storageRef = firebase.storage().ref(hours + "-" + min + "-" + sec + "-" + file.name);
+                      var task = storageRef.put(file);
+                      task.on('state_changed',
+                        function progress(snapshot){
+
+                          var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                          //document.getElementById("loader").style.display = "block";
+                          //document.getElementById("loading-circle").style.display = "block";
+                          console.log(percentage);
+                          //uploader.value = percentage;
+                        },
+                        function error(err) {
+                        },
+                        function complete(){
+                          //alert("Profile photo uploaded successfully");
+                          //document.getElementById("loader").style.display = "none";
+                          //document.getElementById("loading-circle").style.display = "none";
+                          //var photoUID = localStorage.getItem("uid");
+                          task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+
+                            var database = firebase.database().ref("tasks-buffer/" + localStorage.getItem("taskStore") + "-tasks-buffer" + "/" + localStorage.getItem("data_key") + "/files").push();
+
+                            var file$name = {
+                              fileURL : downloadURL,
+                              fileName : file.name,
+                              fileKey : database.getKey(),
+                              dataKey : localStorage.getItem("data_key")
+                            }
+
+                            database.set(file$name, function(error){
+                              if (error) {
+
+                              }
+                              else {
+                                document.getElementById("file-section").innerHTML = ``;
+
+                                var task = firebase.database().ref("tasks-buffer/" + localStorage.getItem("taskStore") + "-tasks-buffer/" + localStorage.getItem("data_key") + "/files/");
+                                task.on("child_added",function(data){
+                                  var taskValue = data.val();
+                                  console.log(taskValue);
+                                  document.getElementById("file-section").innerHTML =`
+                                    <div class="card mb-3" style="box-shadow:0 0 8px #888888">
+                                      <div class="card-body">
+                                        <h5 class="card-title">${taskValue.fileName}</h5>
+                                        <p class="card-text" style="color:blue">Uploaded !!</p>
+                                      </div>
+                                    </div>
+                                  `
+                                });
+                              }
+                            });
+
+                            //database.child("fileURL").set(downloadURL);
+                            document.getElementById("tasker").value = '';
+                            document.getElementById("descriptor").value = '';
+                          });
+                        }
+                      );
+                    }
+                    function dismiss(){
+                      document.getElementById("pop-up").style.display = "none";
+                    }
+                  </script>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-md-12" style="text-align:left" id="file-section"></div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h1 style="text-align:center;margin-bottom:1vw;color:#4c4c78">WEEKLY TASKS</h1>
+
+    <div class="col-md-12" style="text-align:left" id="weekly-section"></div>
+
+    <h1 style="text-align:center;margin-bottom:1vw;color:#4c4c78">OVERALL TASKS</h1>
+
+    <div style="margin:1vw;box-shadow: 0 0 8px #888888">
+        <h3 id="fileNameHolder" style="text-align:center;color:#4c4c78"></h3>
+        <div class="col-md-12" style="text-align:left" id="file-section2"></div>
+    </div>
+
+    <div class="col-md-12" style="text-align:left" id="overall-section"></div>
+
+    <script src="js-lib/add-acc.js"></script>
+
+  </body>
+</html>

@@ -11,8 +11,23 @@
 
     <link rel="stylesheet" type="text/css" href="style-scripts/admin.css">
 
-
     <script src="js-lib/index.js"></script>
+
+    <style type="text/css">
+
+      .nav-link:hover {
+         border-left: 1px solid #cdcdcd;
+         border-right: 1px solid #cdcdcd;
+         background-color: #cccccc;
+         border-radius: 0.2em;
+
+      }
+      .navbar{
+        box-shadow: 0 0 8px #888888;
+        background-color: #f2f2f2;
+      }
+
+    </style>
 
   </head>
   <body onload="distributeTasks()">
@@ -44,18 +59,18 @@
             <a class="nav-link" href="camp_amb.html">Campus Ambassadors</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="distribute-tasks.html">Distribute Tasks</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="addAccounts.html">Generate Accounts</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Querries</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Login logs</a>
-          </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
           <i class="fa fa-sign-in" aria-hidden="true" style="color:#898989"></i>
-          <a class="nav-link" onclick="logout()" style="color:#898989">LOGOUT</a>
+          <a class="nav-link" onclick="logout()" style="color:#898989" href="#">LOGOUT</a>
         </form>
       </div>
     </nav>
@@ -65,7 +80,7 @@
       <h2 style="color:#4c4c78">Total Ambassadors</h2>
     </div>
 
-    <div class="col-md-12" id="cardSection"></div>
+    <div class="col-md-12" id="cardSection2"></div>
 
     <script src="js-lib/add-acc.js"></script>
 
