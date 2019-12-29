@@ -198,12 +198,30 @@ function weeklyTaskReload(){
     var taskValue = data.val();
     console.log(taskValue);
     document.getElementById("weekly-section").innerHTML+=`
-      <div class="card mb-3" style="box-shadow:0 0 8px #888888">
-        <div class="card-body">
-          <h5 class="card-title">${taskValue.title}</h5>
-          <p class="card-text">${taskValue.description}</p>
+    <div class="card mb-3" style="box-shadow:0 0 8px #888888" onclick="retrieveFilesWeekly('${taskValue.dataKey}','${taskValue.title}')">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-11">
+            <h5 id="${taskValue.dataKey}title" class="card-title">${taskValue.title}</h5>
+            <p id="${taskValue.dataKey}desc" class="card-text">${taskValue.description}</p>
+            <p id="${taskValue.dataKey}removed"></p>
+          </div>
+          <div class="col-sm-1">
+            <div class="watch"><img style="width:1.4vw" src="resources/delete.png" href="#" onclick="deleteWeekly('${taskValue.dataKey}')"></div>
+            <style>
+              .watch:hover{
+                text-align:center;
+                width:2vw;
+                height:2vw;
+                border-radius:1vw;
+                background-color:#dadada;
+              }
+            </style>
+          </div>
         </div>
       </div>
+    </div>
+
     `
   });
 
@@ -215,20 +233,13 @@ function weeklyTaskReload(){
       <div class="card mb-3" style="box-shadow:0 0 8px #888888" onclick="retrieveFiles('${taskValue.dataKey}','${taskValue.title}')">
         <div class="card-body">
           <div class="row">
-            <div class="col-sm-10">
+            <div class="col-sm-11">
               <h5 id="${taskValue.dataKey}title" class="card-title">${taskValue.title}</h5>
-              <input style="display:none" type="text" class="form-control" id="${taskValue.dataKey}tasker" value="${taskValue.title}" required>
-              <textarea style="display:none" class="form-control" style="margin-top:1vw" name="name" rows="8" cols="80"  id="${taskValue.dataKey}descriptor"></textarea>
-              <button style="display:none" id="${taskValue.dataKey}submit" type="button" style="margin-top:1vw;box-shadow: 0 0 8px #888888" class="btn btn-primary btn-lg btn-block" onclick="editedOverall('${taskValue.dataKey}')">Assign</button>
               <p id="${taskValue.dataKey}desc" class="card-text">${taskValue.description}</p>
+              <p id="${taskValue.dataKey}removed"></p>
             </div>
             <div class="col-sm-1">
-              <div class="watch"><img src="resources/edit.png" style="width:1.4vw" href="#" onclick="document.getElementById('${taskValue.dataKey}title').style.display = 'none';
-                                                                                                     document.getElementById('${taskValue.dataKey}desc').style.display = 'none';
-                                                                                                     document.getElementById('${taskValue.dataKey}tasker').style.display = 'block';
-                                                                                                     document.getElementById('${taskValue.dataKey}descriptor').style.display = 'block';
-                                                                                                     document.getElementById('${taskValue.dataKey}descriptor').innerHTML = '${taskValue.description}';
-                                                                                                     document.getElementById('${taskValue.dataKey}submit').style.display = 'block'"></div>
+              <div class="watch"><img style="width:1.4vw" src="resources/delete.png" href="#" onclick="deleteOverall('${taskValue.dataKey}')"></div>
               <style>
                 .watch:hover{
                   text-align:center;
@@ -238,9 +249,6 @@ function weeklyTaskReload(){
                   background-color:#dadada;
                 }
               </style>
-            </div>
-            <div class="col-sm-1">
-              <div class="watch"><img style="width:1.4vw" src="resources/delete.png" href="#" onclick="deleteOverall()"></div>
             </div>
           </div>
         </div>
@@ -291,6 +299,50 @@ function retrieveFiles(fileFixer,title){
   });
 }
 
+function retrieveFilesWeekly(fileFixer,title){
+
+  document.getElementById("fileNameHolder2").style.padding = "1vw";
+  document.getElementById("fileNameHolder2").innerHTML = title + " Files";
+
+  document.getElementById("file-section3").innerHTML = ``;
+
+  var fileTask = firebase.database().ref("tasks-buffer/weekly-tasks-buffer/" + fileFixer  + "/files");
+  fileTask.on("child_added",function(data){
+    var fileVal = data.val();
+    console.log(fileVal);
+    //console.log(${fileVal.fileName});
+    document.getElementById("file-section3").innerHTML+=`
+      <div class="card mb-3">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-10">
+              <h5 class="card-title">${fileVal.fileName}</h5>
+              <p id="${fileVal.fileKey}"></p>
+            </div>
+            <div class="col-sm-1">
+              <div class="watch"><img src="resources/eye.png" href="#" onclick="window.location.replace('${fileVal.fileURL}')"></div>
+              <style>
+                .watch:hover{
+                  text-align:center;
+                  width:2vw;
+                  height:2vw;
+                  border-radius:1vw;
+                  background-color:#dadada;
+                }
+              </style>
+            </div>
+            <div class="col-sm-1">
+              <div class="watch"><img style="width:1.4vw" src="resources/delete.png" href="#" onclick=removerWeekly('${fileVal.dataKey}','${fileVal.fileKey}')></div>
+            </div>
+          <div>
+        </div>
+      </div>
+    `
+  });
+
+
+}
+
 var tsk;
 
 function tskType(type){
@@ -304,13 +356,24 @@ function remover(dataKey,fileKey){
   document.getElementById(fileKey).style.color = "red";
 }
 
-function editedOverall(dataKey){
+function removerWeekly(dataKey,fileKey) {
+  firebase.database().ref().child("tasks-buffer").child("weekly-tasks-buffer").child(dataKey).child("files").child(fileKey).remove();
+  document.getElementById(fileKey).innerHTML = "File Removed";
+  document.getElementById(fileKey).style.color = "red";
+}
 
-  var taskTi = {
-    title : document.getElementById(dataKey + "tasker").value,
-    description : document.getElementById(dataKey + "descriptor").value
-  }
+function deleteOverall(dataKey){
 
-  firebase.database().ref().child("tasks-buffer").child("overall-tasks-buffer").child(dataKey).set(taskTi);
+  firebase.database().ref().child("tasks-buffer").child("overall-tasks-buffer").child(dataKey).remove();
+  document.getElementById(dataKey + "removed").innerHTML = "File Removed";
+  document.getElementById(dataKey + "removed").style.color = "red";
+
+}
+
+function deleteWeekly(dataKey){
+
+  firebase.database().ref().child("tasks-buffer").child("weekly-tasks-buffer").child(dataKey).remove();
+  document.getElementById(dataKey + "removed").innerHTML = "File Removed";
+  document.getElementById(dataKey + "removed").style.color = "red";
 
 }
