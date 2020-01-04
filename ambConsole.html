@@ -1,62 +1,170 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-    <script src="jquery-lib/jquery.easypiechart.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-database.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="style-scripts/admin.css">
+  <script src="https://kit.fontawesome.com/62a31fdea1.js" crossorigin="anonymous"></script>
+  <script src="jquery-lib/jquery.easypiechart.js"></script>
 
-    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-analytics.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-database.js"></script>
-    <script src="js-lib/index.js"></script>
-  </head>
-  <body onload="ignite();timeStampper();">
+  <link rel="stylesheet" href="style-scripts/ambCons.css">
+</head>
+<body>
 
-    <nav class="navbar navbar-default" style="padding:0.5vw">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <img src="resources/logo_console.png" style="width:4vw; margin-right:0.5vw">
-          <a style="text-decoration:none" href="#">Ambassador Console</a>
-        </div>
-        <ul class="nav navbar-nav" style="margin-left:2vw">
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Campus Ambassadors</a></li>
-          <li><a href="#">Generate Accounts</a></li>
-          <li><a href="#">Querries</a></li>
-          <li><a href="#">Login Logs</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li><a onclick="logout()" href="#"><span class="glyphicon glyphicon-log-out"></span> LOGOUT</a></li>
-        </ul>
+ 
+  
+
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  
+  <!-- Vertical navbar -->
+<div class="vertical-nav bg-white" id="sidebar">
+  <div class="py-4 px-3 mb-4 bg-light">
+    <div class="media d-flex align-items-center"><img src="https://res.cloudinary.com/mhmd/image/upload/v1556074849/avatar-1_tcnd60.png" alt="..." width="65" class="mr-3 rounded-circle img-thumbnail shadow-sm">
+      <div class="media-body">
+        <h4 class="m-0">John Doe</h4>
+        <p class="font-weight-light text-muted mb-0">Random College</p>
       </div>
-    </nav>
+    </div>
+  </div>
 
-      <div class="center-progress">
-        <div class="container-fluid">
-          <div class="box">
-            <div id="something-some" data-percent="50" class="chart" style="text-align:center">78%</div>
-            <p style="margin-top:2vw;font-size:2vw">AVERAGE WEEKLY PROGRESS</p>
-          </div>
+  <p class="text-gray font-weight-bold text-uppercase px-3 small pb-4 mb-0">Utility</p>
+
+  <ul class="nav flex-column bg-white mb-0">
+    <li class="nav-item">
+      <a href="ambConsole.html" class="nav-link text-dark font-italic bg-light">
+                <i class="fa fa-th-large mr-3 text-primary fa-fw"></i>
+                Home
+            </a>
+    </li>
+    <li class="nav-item">
+      <a href="profile.html" class="nav-link text-dark font-italic">
+                <i class="fa fa-address-card mr-3 text-primary fa-fw"></i>
+                Profile
+            </a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link text-dark font-italic">
+                <i class="fa fa-cubes mr-3 text-primary fa-fw"></i>
+                Query
+            </a>
+    </li>
+  </ul>
+
+  <p class="text-gray font-weight-bold text-uppercase px-3 small py-4 mb-0">Work</p>
+
+  <ul class="nav flex-column bg-white mb-0">
+    <li class="nav-item">
+      <a href="#" class="nav-link text-dark font-italic">
+                <i class="fa fa-tasks mr-3 text-primary fa-fw"></i>
+                Weekly Tasks
+            </a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link text-dark font-italic">
+                <i class="fa fa-calendar-check-o mr-3 text-primary fa-fw"></i>
+                Overall Tasks
+            </a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link text-dark font-italic">
+                <i class="fa fa-info mr-3 text-primary fa-fw"></i>
+                About Developers
+            </a>
+    </li>
+  </ul>
+</div>
+<div class="page-content p-5" id="content">
+  <!-- Toggle button -->
+  <button id="sidebarCollapse" type="button" class="btn btn-light bg-white rounded-pill shadow-sm px-4 mb-2"><i class="fa fa-bars mr-1"></i></button>
+
+  <div style="padding: 1vw" class="analytics container">
+
+    <div><i class="fa fa-bar-chart fa-lg ic-hover" aria-hidden="true"></i></div>
+
+    <div style="margin: 1vw" class="row">
+      <div class="col-sm-6">
+
+        <p style="color: grey;font-weight: 500">Weekly Tasks Pending</p>
+        <h2>5</h2>
+
+        <div style="text-align: center">
+          <div class="chart" data-percent="73"></div>
+          <h2 style="margin-top: 1vw">73%</h2>
         </div>
+        
+
+        <script>
+          $(function() {
+              $('.chart').easyPieChart({
+                  //your options goes here
+                  lineWidth:20,
+                  scaleColor:false,
+                  size:200,
+                  trackColor:'#11293e',
+                  barColor:'#1a73e8'
+              });
+          });
+      </script>
+
+
       </div>
-      <div class="center-progress">
-        <div class="container-fluid">
-          <div class="box">
-            <div class="chart2" style="text-align:center">78%</div>
-            <p style="margin-top:2vw;font-size:2vw">AVERAGE OVERALL PROGRESS</p>
-          </div>
+      <div class="col-sm-6">
+
+        <p style="color: grey;font-weight: 500">Overall Tasks Pending</p>
+        <h2>0</h2>
+
+        <div style="text-align: center">
+          <div class="chart" data-percent="73"></div>
+          <h2 style="margin-top: 1vw">73%</h2>
         </div>
+        
       </div>
 
-  </body>
+      
+    </div>
+
+    <div onclick="window.location.replace('')" class="col-sm-12 hyperlink">
+
+      <i class="fa fa-tasks mr-3 text-primary fa-fw"></i>
+      <a class="com-rm" href="#">Weekly Tasks</a>
+      <a class="com-rm" href="#" style="float: right">Visit</a>
+      
+    </div>
+    
+    <div onclick="window.location.replace('')" class="col-sm-12 hyperlink">
+
+      <i class="fa fa-calendar-check-o mr-3 text-primary fa-fw"></i>
+      <a class="com-rm" href="#">Overall Tasks</a>
+      <a class="com-rm" href="#" style="float: right">Visit</a>
+      
+    </div>
+    
+  </div>
+
+</div>
+
+<script>
+  $(function() {
+    // Sidebar toggle behavior
+    $('#sidebarCollapse').on('click', function() {
+      $('#sidebar, #content').toggleClass('active');
+    });
+  });
+</script>
+
+
+</body>
 </html>

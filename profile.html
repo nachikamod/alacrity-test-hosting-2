@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-storage.js"></script>
+
+
+  <script src="https://kit.fontawesome.com/62a31fdea1.js" crossorigin="anonymous"></script>
+  <script src="jquery-lib/jquery.easypiechart.js"></script>
+
+  <link rel="stylesheet" href="style-scripts/ambCons.css">
+</head>
+<body>
+
+    <script src="js-lib/uploadPhoto.js"></script>
+
+ 
+  
+
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  
+  <!-- Vertical navbar -->
+<div class="vertical-nav bg-white" id="sidebar">
+  <div class="py-4 px-3 mb-4 bg-light">
+    <div class="media d-flex align-items-center"><img src="https://res.cloudinary.com/mhmd/image/upload/v1556074849/avatar-1_tcnd60.png" alt="..." width="65" class="mr-3 rounded-circle img-thumbnail shadow-sm">
+      <div class="media-body">
+        <h4 class="m-0">John Doe</h4>
+        <p class="font-weight-light text-muted mb-0">Random College</p>
+      </div>
+    </div>
+  </div>
+
+  <p class="text-gray font-weight-bold text-uppercase px-3 small pb-4 mb-0">Utility</p>
+
+  <ul class="nav flex-column bg-white mb-0">
+    <li class="nav-item">
+      <a href="ambConsole.html" class="nav-link text-dark font-italic bg-light">
+                <i class="fa fa-th-large mr-3 text-primary fa-fw"></i>
+                Home
+            </a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link text-dark font-italic">
+                <i class="fa fa-address-card mr-3 text-primary fa-fw"></i>
+                Profile
+            </a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link text-dark font-italic">
+                <i class="fa fa-cubes mr-3 text-primary fa-fw"></i>
+                Query
+            </a>
+    </li>
+  </ul>
+
+  <p class="text-gray font-weight-bold text-uppercase px-3 small py-4 mb-0">Work</p>
+
+  <ul class="nav flex-column bg-white mb-0">
+    <li class="nav-item">
+      <a href="#" class="nav-link text-dark font-italic">
+                <i class="fa fa-tasks mr-3 text-primary fa-fw"></i>
+                Weekly Tasks
+            </a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link text-dark font-italic">
+                <i class="fa fa-calendar-check-o mr-3 text-primary fa-fw"></i>
+                Overall Tasks
+            </a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link text-dark font-italic">
+                <i class="fa fa-info mr-3 text-primary fa-fw"></i>
+                About Developers
+            </a>
+    </li>
+  </ul>
+</div>
+<div class="page-content p-5" id="content">
+  <!-- Toggle button -->
+  <button id="sidebarCollapse" type="button" class="btn btn-light bg-white rounded-pill shadow-sm px-4 mb-2"><i class="fa fa-bars mr-1"></i></button>
+
+  <div style="padding: 1vw" class="analytics container">
+
+    <div style="text-align: center;margin-top: 1vw">
+        <img src="https://res.cloudinary.com/mhmd/image/upload/v1556074849/avatar-1_tcnd60.png" alt="..." width="120" class="mr-3 rounded-circle img-thumbnail shadow-sm">
+        <h2>ROBER DOWNEY JR.</h2>
+        <h4 style="color: grey">Random College</h4>
+        <h6>Address of college, pune, 411001</h6>
+        <h6 style="color: grey;margin-top: 2vw">Course Year</h6>
+        <h6>TE ENTC</h6>
+        <h6 style="margin-top: 1vw;color: grey">Mobile No.</h6>
+        <h6>9823982308</h6>
+        <h6 style="margin-top: 1vw;color: grey">Email</h6>
+        <h6>downey.jr@gmail.com</h6>
+    </div>
+
+    <button style="background-color: #1a73e8" class="btn rounded-pill shadow-sm px-2 mb-2" onclick="uploadPhoto()"><i style="color: white;" class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+    <a onclick="uploadPhoto()" class="com-rm" href="#">Upload Photo</a>
+
+    <div style="display: none" class="custom-file" id="fileUploader">
+        <input type="file" class="custom-file-input" id="fileButton">
+        <label class="custom-file-label" for="customFile">Choose file</label>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  $(function() {
+    // Sidebar toggle behavior
+    $('#sidebarCollapse').on('click', function() {
+      $('#sidebar, #content').toggleClass('active');
+    });
+  });
+
+  //Setting file name to container
+$(".custom-file-input").on("change", function() {
+    var fileName = $(this).val().split("\\").pop();
+
+    localStorage.setItem("fileName", fileName);
+
+    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+
+
+    
+  });
+</script>
+
+<script>
+
+
+  //Getting file object from the system
+  var fileButton = document.getElementById("fileButton");
+  fileButton.addEventListener('change', function(e){
+      file = e.target.files[0];
+
+      uploadfileData();
+  });
+
+  //uploadinf file to server
+  function uploadfileData(){
+    var date = new Date();
+    var hours = date.getHours();
+    var min = date.getMinutes();
+    var sec = date.getSeconds();
+
+    //uploadinf file to firebase storage
+    var storageRef = firebase.storage().ref(hours + "-" + min + "-" + sec + "-" + file.name);
+    var task = storageRef.put(file);
+    task.on('state_changed',
+      function progress(snapshot){
+
+        var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        //document.getElementById("loader").style.display = "block";
+        //document.getElementById("loading-circle").style.display = "block";
+        console.log(percentage);
+        //uploader.value = percentage;
+      },
+      function error(err) {
+      },
+      function complete(){
+        //alert("Profile photo uploaded successfully");
+        //document.getElementById("loader").style.display = "none";
+        //document.getElementById("loading-circle").style.display = "none";
+        //var photoUID = localStorage.getItem("uid");
+        task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+
+          /*var database = firebase.database().ref("tasks-buffer/" + localStorage.getItem("taskStore") + "-tasks-buffer" + "/" + localStorage.getItem("data_key") + "/files").push();
+
+          var file$name = {
+            fileURL : downloadURL,
+            fileName : file.name,
+            fileKey : database.getKey(),
+            dataKey : localStorage.getItem("data_key")
+          }
+
+          database.set(file$name, function(error){
+            if (error) {
+
+            }
+            else {
+              document.getElementById("file-section").innerHTML = ``;
+
+              var task = firebase.database().ref("tasks-buffer/" + localStorage.getItem("taskStore") + "-tasks-buffer/" + localStorage.getItem("data_key") + "/files/");
+              task.on("child_added",function(data){
+                var taskValue = data.val();
+                console.log(taskValue);
+                document.getElementById("file-section").innerHTML =`
+                  <div class="card mb-3" style="box-shadow:0 0 8px #888888">
+                    <div class="card-body">
+                      <h5 class="card-title">${taskValue.fileName}</h5>
+                      <p class="card-text" style="color:blue">Uploaded !!</p>
+                    </div>
+                  </div>
+                `
+              });
+            }
+          });*/
+
+       
+        });
+      }
+    );
+  }
+  function dismiss(){
+  
+  }
+
+</script>
+
+
+</body>
+</html>
